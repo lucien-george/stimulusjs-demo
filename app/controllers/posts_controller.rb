@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :set_posts, only: [:index, :create]
+  before_action :set_posts, only: %i[index create]
 
   def index
     @post = Post.new
