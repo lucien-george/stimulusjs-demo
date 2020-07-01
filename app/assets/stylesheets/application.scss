@@ -11,12 +11,3 @@
 // Your CSS partials
 @import "components/index";
 @import "pages/index";
-
-.post-loader {
-  width: 150px;
-  height: 150px;
-  position: fixed;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  left: 50%;
-}
