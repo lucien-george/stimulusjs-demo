@@ -3,14 +3,31 @@ class PostsController < ApplicationController
 
   def index
     @post = Post.new
+    respond_to do |format|
+      format.html
+      format.json do
+        render json: {
+          entries: render_to_string(partial: 'posts/posts', formats: [:html], locals: { posts: @posts }),
+          pagination: view_context.pagy_nav(@pagy)
+        }
+      end
+    end
+  end
+
+  def show
+    @post = Post.find(params[:id])
+    render partial: 'modal_content', locals: { post: @post }
   end
 
   def create
     @post = Post.new(post_params)
     if @post.save
-      redirect_to posts_path
+      render json: { success: true }
     else
-      render :index
+      render json: {
+        success: false,
+        form: render_to_string(partial: 'form', locals: { post: @post })
+      }
     end
   end
 
@@ -21,6 +38,6 @@ class PostsController < ApplicationController
   end
 
   def set_posts
-    @posts = Post.all
+    @pagy, @posts = pagy(Post.order(created_at: :desc))
   end
 end

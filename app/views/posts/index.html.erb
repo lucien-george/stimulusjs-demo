@@ -1,25 +1,36 @@
-<div class="container my-4">
-  <div class="d-flex align-items-center justify-content-between mb-4">
-    <h1>Posts</h1>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#new_post">
-      Create a new post
-    </button>
-  </div>
-  <div class="row">
-    <%= render @posts %>
-  </div>
-</div>
-<div class="modal fade" id="new_post" tabindex="-1" role="dialog" aria-labelledby="new_post" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">New Post</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+<div data-controller="posts">
+  <div class="container my-4">
+    <div class="d-flex align-items-center justify-content-between mb-4">
+      <h1>Posts</h1>
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#new_post">
+        Create a new post
+      </button>
+    </div>
+    <div data-controller="infinite-scroll" data-action="scroll@window->infinite-scroll#scroll">
+      <%= render 'posts', posts: @posts %>
+      <div class="d-none" data-target="infinite-scroll.pagination">
+        <%== pagy_bootstrap_nav(@pagy) %>
       </div>
-      <div class="modal-body">
-        <%= render 'form', post: @post %>
+    </div>
+  </div>
+  <div class="modal fade" id="new_post" tabindex="-1" role="dialog" aria-labelledby="new_post" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">New Post</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <%= render 'form', post: @post %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="post_modal" tabindex="-1" role="dialog" aria-labelledby="post_modal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content" data-target="posts.content">
       </div>
     </div>
   </div>
