@@ -1,18 +1,32 @@
-// Visit The Stimulus Handbook for more details 
-// https://stimulusjs.org/handbook/introduction
-// 
-// This example controller works with specially annotated HTML like:
-//
-// <div data-controller="hello">
-//   <h1 data-target="hello.output"></h1>
-// </div>
-
 import { Controller } from "stimulus"
 
 export default class extends Controller {
-  static targets = [ "output" ]
+ static targets = [ 'click', 'count' ]
 
   connect() {
-    this.outputTarget.textContent = 'Hello, Stimulus!'
+    console.log('hi');
+  }
+
+  sayHi() {
+    const message = this.clickTarget.innerText;
+    this.clickTarget.innerText = this.data.get('message');
+    this.data.set('message', message);
+  }
+
+  get count() {
+    return this.data.get('count');
+  }
+
+  set count(value) {
+    this.data.set('count', value);
+    this.countTarget.innerHTML = this.count;
+  }
+
+  decrement() {
+    this.count--; // this.count = this.count -1
+  }
+
+  increment() {
+    this.count++;
   }
 }
